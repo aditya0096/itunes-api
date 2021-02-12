@@ -9,16 +9,57 @@ class Search extends React.Component {
 
         this.state = {
             query: '',
-            results: {},
+            result: {},
             loading: false,
             message: ''
-        } 
+        };
+
+        this.cancel = '';
+
+        this.cancel='';
     }
+
+    fetchSearchResults = ( query ) => {
+        // const pageNumber = updatedPageNo ? '&page=4${updatedPageNo}' : '';
+        // const searchUrl = `https://itunes.apple.com/search?parameterkeyvalue`
+        const searchUrl = `https://itunes.apple.com/search?term=${query}&`
+
+        if( this.cancel ){
+            this.cancel.cancel();
+        }
+        this.cancel = axios.CancelToken.source();
+
+        axios.get( searchUrl, {
+            cancelToken: this.cancel.token
+        } )
+            .then( res => {
+                const resultNotFoundMsg = ! res.data.results.length
+                                        ? 'There Are No More Results.'
+                                        : '';
+                this.setState ( {
+                    result: res.data.results,
+                    message: resultNotFoundMsg,
+                    loading: false
+                })
+                // console.log(res.data); FOR SEEING IF THE DATA IS FETCHED OR NOT 
+            })
+            .catch( error => {
+                if( axios.isCancel(error) || error ) {
+                    this.setState( {
+                    loading: false,
+                    message: 'Failed to fetch the data'
+                    })
+                }
+            } )
+                
+    };
 
     handleOnInputChange = ( event ) => { 
         const query = event.target.value;
-        this.setState({ query, loading: true, message: ''});
-        
+        this.setState({ query: query, loading: true, message: ''}, () => {
+            this.fetchSearchResults(query);
+        });
+
     };
 
     render() {
