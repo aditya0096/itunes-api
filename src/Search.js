@@ -1,6 +1,7 @@
 import React from 'react';
 import './Search.css'; 
 import axios from 'axios';
+import loader from './loader.gif';
 
 class Search extends React.Component {
 
@@ -41,7 +42,7 @@ class Search extends React.Component {
                     message: resultNotFoundMsg,
                     loading: false
                 })
-                //  console.log(res.data);  
+                  console.log(res.data);  
             })
             .catch( error => {
                 if( axios.isCancel(error) || error ) {
@@ -62,8 +63,29 @@ class Search extends React.Component {
 
     };
 
+    renderSearchResults = () => {
+        const { result } = this.state;
+
+        if( Object.keys( result ).length && result.length ) {
+            return (
+                <div className="results-container">
+                    { result.map( res => {
+                        return (
+                            <a key={ res.id } href={ res.artworkUrl100 } className="result-item">
+                                <h6 className="track-name">{res.trackName}</h6>
+                                <div className="image-wrapper">
+                                    <img className="image" src={ res.artworkUrl100 } alt={`${res.artistName} image`}/>
+                                </div>
+                            </a>
+                        )
+                    } )}
+                </div>
+            )
+        }
+    }
+
     render() {
-        const { query } = this.state;
+        const { query, loading, message } = this.state;
 
         return (
             <div className="container">
@@ -79,6 +101,14 @@ class Search extends React.Component {
                 />
                 <i class="fas fa-search search-icon"/>
             </lable>
+                {/* MESSAGE */}
+                {message && <p className="message">{ message }</p>}
+
+                {/* LOADER  */}
+                <img src={ loader } className={`search-loading ${ loading ? 'show' : 'hide'}`} alt="Loader"></img>
+
+                {/* //Results */}
+                { this.renderSearchResults() }
             </div>
         )
     }
