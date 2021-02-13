@@ -41,7 +41,7 @@ class Search extends React.Component {
                     message: resultNotFoundMsg,
                     loading: false
                 })
-                // console.log(res.data); FOR SEEING IF THE DATA IS FETCHED OR NOT 
+                //  console.log(res.data);  
             })
             .catch( error => {
                 if( axios.isCancel(error) || error ) {
