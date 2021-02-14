@@ -46,8 +46,51 @@
   margin: 15px;
   text-align: center;
   min-width: 200px;
+  min-height: 125px;
   box-shadow: 2px 2px 2px #898989;
 }
 
-/* .track-name {
-} */
+.track-name {
+  color: coral;
+  font-size: 10px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 4px 10px;
+}
+
+.image-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  height: 100%;
+
+}
+
+.image{
+  width: 100%;
+  height: 200px;
+}
+
+.search-loading{
+  position: absolute;
+  size: 100px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  overflow: visible;
+
+}
+
+/* SHow and hide */
+
+.show{
+  display: inline-block;
+}
+
+.hide{
+  display: none;
+}

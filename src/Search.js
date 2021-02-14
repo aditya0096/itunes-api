@@ -57,10 +57,17 @@ class Search extends React.Component {
 
     handleOnInputChange = ( event ) => { 
         const query = event.target.value;
-        this.setState({ query: query, loading: true, message: ''}, () => {
-            this.fetchSearchResults(query);
-        });
-
+        // this.setState({ query: query, loading: true, message: ''}, () => {
+        //     this.fetchSearchResults(query);
+        // });
+        if ( ! query) {
+            this.setState ( { query, result: {}, message: '' })
+        }
+        else{
+            this.setState({ query: query, loading: true, message: ''}, () => {
+                this.fetchSearchResults(query);
+            });
+        }
     };
 
     renderSearchResults = () => {
@@ -74,8 +81,9 @@ class Search extends React.Component {
                             <a key={ res.id } href={ res.artworkUrl100 } className="result-item">
                                 <h6 className="track-name">{res.trackName}</h6>
                                 <div className="image-wrapper">
-                                    <img className="image" src={ res.artworkUrl100 } alt={`${res.artistName} image`}/>
+                                    <img className="image" src={ res.artworkUrl100 } alt={`${res.artistId}`}/>
                                 </div>
+                                
                             </a>
                         )
                     } )}
